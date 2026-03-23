@@ -1,0 +1,78 @@
+@font-face {
+	font-family: 'NimbusMono'; /* A name you choose to refer to the font */
+	src: url('../lib/assets/fonts/NimbusMono.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+:root {
+	--background: #000000;
+	--foreground-dark: #002706;
+	--foreground-light: #41f341;
+	--highlight: #df3030;
+	--highlight-dark: #3b0505;
+}
+
+* {
+	margin: 0;
+}
+
+body {
+	margin: 1rem 2rem;
+	padding: 1rem 2rem;
+	box-sizing: border-box;
+	overflow: none;
+	background-color: var(--background);
+	color: var(--foreground-light);
+	font-family: 'NimbusMono', monospace;
+	border: 3px solid var(--foreground-dark);
+}
+
+button,
+button:active,
+button:hover {
+	border: none;
+	background: transparent;
+	text-decoration: none;
+	box-shadow: none;
+	color: inherit;
+	font-family: inherit;
+}
+
+button:hover,
+button:active {
+	color: var(--highlight);
+	border: 3px solid var(--highlight-dark);
+	transition: all 0.2s ease-in-out;
+}
+
+button {
+	border: 3px solid var(--foreground-dark);
+	font-size: inherit;
+	padding: 0.5rem 1rem;
+}
+
+button:hover svg path {
+	fill: var(--highlight);
+	transition: all 0.2s ease-in-out;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type='number'] {
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+input {
+	border: 3px solid var(--foreground-dark);
+	background: var(--background);
+	color: inherit;
+	outline: var(--foreground-light);
+	padding: 0.5rem 1rem;
+	font-family: inherit;
+}

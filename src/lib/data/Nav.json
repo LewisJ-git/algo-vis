@@ -1,0 +1,75 @@
+[
+	{
+		"name": "Search",
+		"link": "search",
+		"types": [
+			{
+				"name": "Linear",
+				"link": "linear",
+				"types": []
+			},
+			{
+				"name": "Binary",
+				"link": "binary",
+				"types": []
+			}
+		]
+	},
+	{
+		"name": "Sort",
+		"link": "sort",
+		"types": [
+			{
+				"name": "Bubble",
+				"link": "bubble",
+				"types": []
+			},
+			{
+				"name": "Selection",
+				"link": "selection",
+				"types": []
+			},
+			{
+				"name": "Insertion",
+				"link": "insertion",
+				"types": []
+			},
+			{
+				"name": "Merge",
+				"link": "merge",
+				"types": []
+			},
+			{
+				"name": "Quick",
+				"link": "quick",
+				"types": []
+			}
+		]
+	},
+	{
+		"name": "Graph",
+		"link": "graph",
+		"types": [
+			{
+				"name": "Breadth-First Search",
+				"link": "bfs",
+				"types": []
+			},
+			{
+				"name": "Depth-First Search",
+				"link": "dfs",
+				"types": []
+			},
+			{
+				"name": "Dijkstra",
+				"link": "dijkstra",
+				"types": []
+			},
+			{
+				"name": "A*",
+				"link": "a-star",
+				"types": []
+			}
+		]
+	}
+]
