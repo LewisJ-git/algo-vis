@@ -1,15 +1,20 @@
 <script lang="ts">
 	import '../styles/global.css';
 	import favicon from '$lib/assets/icons/favicon.svg';
-	import Nav from '$lib/components/Nav.svelte';
+	import Nav from '$lib/components/Nav/Nav.svelte';
 	import { DataArray } from '$lib/state/DataArray.svelte';
 	import { LayoutType } from '$lib/state/LayoutType.svelte';
 	import ArrayController from '$lib/components/ArrayController.svelte';
+	import { dataType } from '$lib/types/enums';
+	import { PlotParams } from '$lib/state/PlotParams.svelte';
 
 	let { children } = $props();
 
 	new DataArray();
 	new LayoutType();
+	new PlotParams();
+
+	let layoutContext = LayoutType.get();
 </script>
 
 <svelte:head>
@@ -21,12 +26,14 @@
 		<h1>&lt; Algorithm Visualizer &gt;</h1>
 		<Nav />
 	</div>
-	<div class="container controller">
-		<ArrayController />
+	<div class="border-box controller">
+		{#if layoutContext.getLayout() == dataType.ARRAY}
+			<ArrayController />
+		{/if}
 	</div>
 </div>
 
-<div class="container display">{@render children()}</div>
+<div class="display">{@render children()}</div>
 
 <style>
 	.layout {
@@ -40,12 +47,6 @@
 		flex: 1 0 auto;
 		overflow-x: hidden;
 	}
-	.container {
-		box-sizing: border-box;
-		width: 100%;
-		padding: 1rem 2rem;
-		border: 3px solid var(--foreground-dark);
-	}
 	.controller {
 		flex: 0 1 550px;
 		display: flex;
@@ -55,10 +56,6 @@
 	}
 	.display {
 		margin-top: 1rem;
-		height: 600px;
-		display: flex;
-		flex-direction: row;
-		justify-items: stretch;
 	}
 	@media screen and (max-width: 1024px) {
 		.layout {
@@ -66,13 +63,6 @@
 		}
 		.header {
 			width: 100%;
-		}
-		.container {
-			box-sizing: border-box;
-			width: 100%;
-			flex: 1 1 500px;
-			padding: 1rem 2rem;
-			border: 3px solid var(--foreground-dark);
 		}
 	}
 </style>

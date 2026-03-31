@@ -1,11 +1,15 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { DataArray } from '$lib/state/DataArray.svelte';
 	import { LayoutType } from '$lib/state/LayoutType.svelte';
+	import { PlotParams } from '$lib/state/PlotParams.svelte';
 	import { algoType } from '$lib/types/enums';
-	import NumInput from './NumInput.svelte';
+	import { fly } from 'svelte/transition';
+	import NumInput from './Inputs/NumInput.svelte';
 
 	let layoutContext: LayoutType = LayoutType.get();
 	let dataContext: DataArray = DataArray.get();
+	let plotContext: PlotParams = PlotParams.get();
 
 	let executeType = $derived(layoutContext.getMethod());
 
@@ -16,23 +20,36 @@
 	let arrayInsert: string = $state('0,1,2,3,4');
 	let searchTarget: number = $state(0);
 
-	function generateData() {
+	function generateData(e: SubmitEvent) {
+		e.preventDefault();
 		dataContext.generate(min, max, size);
 	}
 
-	function insertSingleData() {
+	function insertSingleData(e: SubmitEvent) {
+		e.preventDefault();
 		dataContext.insert(singleInsert);
 	}
 
-	function insertArrayData() {
+	function insertArrayData(e: SubmitEvent) {
+		e.preventDefault();
 		let inputArr = arrayInsert.split(',').map(Number).filter(Boolean);
 		arrayInsert = inputArr.toString();
 		dataContext.set(inputArr);
 	}
 
-	$effect(() => {
-		$inspect(dataContext.data);
-	});
+	function resetState() {
+		dataContext.reset();
+	}
+
+	function onsubmit(e: SubmitEvent) {
+		e.preventDefault();
+		dataContext.execute(
+			executeType,
+			plotContext.canAnimate(dataContext.getSize()),
+			plotContext.animationSpeed,
+			{ type: page.params.type, target: searchTarget }
+		);
+	}
 </script>
 
 <form onsubmit={generateData}>
@@ -76,15 +93,22 @@
 	<button type="submit">Insert</button>
 </form>
 
-<form class="buttons-container">
-	<button>{executeType}</button>
-	{#if executeType == algoType.SEARCH}
-		<NumInput
-			name={'search'}
-			bind:value={searchTarget}
-			min={-DataArray.MAX_LENGTH}
-			max={DataArray.MAX_LENGTH}
-		/>
+<form class="buttons-container" {onsubmit}>
+	<button type="submit">{executeType}</button>
+	<div>
+		{#if executeType == algoType.SEARCH}
+			<NumInput
+				name={'search'}
+				bind:value={searchTarget}
+				min={-DataArray.MAX_LENGTH}
+				max={DataArray.MAX_LENGTH}
+			/>
+		{/if}
+	</div>
+	{#if !dataContext.inProcess}
+		<button type="button" onclick={resetState} transition:fly={{ x: -100, duration: 200 }}>
+			RESET
+		</button>
 	{/if}
 </form>
 
@@ -100,11 +124,9 @@
 		transition: all 0.2s ease-in-out;
 	}
 	.buttons-container {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		gap: 2rem;
+		display: grid;
+		grid-template-columns: 1fr 2fr 1fr;
+		gap: 1rem;
 	}
 	form {
 		display: flex;

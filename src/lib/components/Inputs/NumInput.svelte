@@ -1,14 +1,20 @@
 <script lang="ts">
 	import type { Input } from '$lib/types/interfaces';
 
-	let { name = '', value = $bindable(), min = 0, max = 20 }: Input = $props();
+	let { name = '', value = $bindable(), min = 0, max = 20, factor = 1 }: Input = $props();
 
 	function inc() {
-		value++;
+		value = value + factor;
+		if (value > max) {
+			value = max;
+		}
 	}
 
 	function dec() {
-		value--;
+		value = value - factor;
+		if (value < min) {
+			value = min;
+		}
 	}
 </script>
 

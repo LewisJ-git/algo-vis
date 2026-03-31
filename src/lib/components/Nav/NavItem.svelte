@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import Folder from '$lib/assets/icons/Folder.svelte';
 	import type { NavChildren } from '$lib/types/interfaces';
 	import { slide } from 'svelte/transition';
@@ -17,6 +18,8 @@
 		children
 	}: NavChildren = $props();
 
+	let { params } = page;
+
 	function expand() {
 		if (active == index) {
 			active = -1;
@@ -25,7 +28,19 @@
 		}
 
 		if (data.types.length == 0 && parent.length > 0) {
-			goto(`/${parent}/${data.link}`);
+			let urlString = '';
+			switch (parent) {
+				case 'search':
+				case 'sort':
+					urlString = `/array/method/${parent}/type/${data.link}`;
+					break;
+				case 'graph':
+					urlString = `/graph/type/${data.link}`;
+					break;
+				default:
+					break;
+			}
+			goto(urlString);
 		}
 	}
 </script>

@@ -4,8 +4,9 @@ import { setContext, getContext } from 'svelte';
 const KEY = Symbol();
 
 export class LayoutType {
-	layout: dataType = $state(dataType.ARRAY);
-	method: algoType = $state(algoType.SEARCH);
+	layout: dataType = $state(dataType.NONE);
+	method: algoType = $state(algoType.NONE);
+	type: string = $state('');
 
 	constructor(type?: dataType) {
 		setContext(KEY, this);
@@ -21,6 +22,10 @@ export class LayoutType {
 
 	setMethod(type: algoType): void {
 		this.method = type;
+	}
+
+	setType(type: string): void {
+		this.type = type;
 	}
 
 	getLayout(): dataType {

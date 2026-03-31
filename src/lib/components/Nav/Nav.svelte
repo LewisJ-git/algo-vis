@@ -1,8 +1,13 @@
 <script lang="ts">
 	import NavItem from './NavItem.svelte';
 	import items from '$lib/data/Nav.json';
+	import { page } from '$app/state';
 
 	let active = $state(-1);
+
+	$effect(() => {
+		active = items.findIndex((i) => i.link === page.params.method);
+	});
 </script>
 
 <nav>
