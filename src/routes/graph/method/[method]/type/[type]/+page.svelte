@@ -1,23 +1,20 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import ArrayPanel from '$lib/components/Array/ArrayPanel.svelte';
-	import BarPlot from '$lib/components/canvas/BarPlot.svelte';
+	import GridPlot from '$lib/components/canvas/GridPlot.svelte';
+	import DisplayPanel from '$lib/components/Graph/GraphPanel.svelte';
 	import VisualizerController from '$lib/components/VisualizerController.svelte';
-	import { DataArray } from '$lib/state/DataArray.svelte';
+	import { DataGraph } from '$lib/state/DataGraph.svelte';
 	import { LayoutType } from '$lib/state/LayoutType.svelte';
 	import { algoType, dataType } from '$lib/types/enums';
 
-	let method = $derived(page.params.method);
-	let methodType: algoType = $derived(method?.toUpperCase() as algoType);
-	let type = $derived(page.params.type);
-
+	const type = $derived(page.params.type);
 	let layoutContext: LayoutType = LayoutType.get();
-	let dataContext: DataArray = DataArray.get();
+	let dataContext: DataGraph = DataGraph.get();
 
-	layoutContext.setLayout(dataType.ARRAY);
+	layoutContext.setLayout(dataType.GRAPH);
+	layoutContext.setMethod(algoType.SEARCH);
 
 	$effect(() => {
-		layoutContext.setMethod(methodType);
 		if (type) {
 			layoutContext.setType(type);
 			dataContext.setIterator(type);
@@ -26,9 +23,9 @@
 </script>
 
 <div class="container">
-	<BarPlot />
+	<GridPlot />
 	<div class="controllers">
-		<ArrayPanel />
+		<DisplayPanel />
 		<VisualizerController />
 	</div>
 </div>

@@ -1,9 +1,12 @@
 <script>
+	import { LayoutType } from '$lib/state/LayoutType.svelte';
 	import { PlotParams } from '$lib/state/PlotParams.svelte';
+	import { dataType } from '$lib/types/enums';
 	import BoolInput from './Inputs/BoolInput.svelte';
 	import NumInput from './Inputs/NumInput.svelte';
 
 	let params = PlotParams.get();
+	let layoutContext = LayoutType.get();
 
 	$effect(() => {
 		$inspect(params.showIndex);
@@ -24,8 +27,10 @@
 			/>
 		</label>
 	</div>
-	<BoolInput name="displayIndex" bind:value={params.showIndex}>Indices</BoolInput>
-	<BoolInput name="displayValue" bind:value={params.showValue}>Values</BoolInput>
+	{#if layoutContext.layout == dataType.ARRAY}
+		<BoolInput name="displayIndex" bind:value={params.showIndex}>Indices</BoolInput>
+		<BoolInput name="displayValue" bind:value={params.showValue}>Values</BoolInput>
+	{/if}
 </div>
 
 <style>

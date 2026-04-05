@@ -41,6 +41,7 @@
 	"dependencies": {
 		"@types/d3": "^7.4.3",
 		"d3": "^7.9.0",
+		"simplex-noise": "^4.0.3",
 		"svelte-canvas": "^2.1.0"
 	}
 }

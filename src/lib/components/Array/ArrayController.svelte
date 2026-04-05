@@ -1,24 +1,20 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	import { DataArray } from '$lib/state/DataArray.svelte';
 	import { LayoutType } from '$lib/state/LayoutType.svelte';
-	import { PlotParams } from '$lib/state/PlotParams.svelte';
 	import { algoType } from '$lib/types/enums';
-	import { fly } from 'svelte/transition';
-	import NumInput from './Inputs/NumInput.svelte';
+	import { slide } from 'svelte/transition';
+	import NumInput from '../Inputs/NumInput.svelte';
 
 	let layoutContext: LayoutType = LayoutType.get();
 	let dataContext: DataArray = DataArray.get();
-	let plotContext: PlotParams = PlotParams.get();
 
 	let executeType = $derived(layoutContext.getMethod());
 
-	let size: number = $state(DataArray.EXAMPLE_LEN);
-	let min: number = $state(DataArray.EXAMPLE_MIN);
-	let max: number = $state(DataArray.EXAMPLE_MAX);
+	let size: number = $state(DataArray.DEFAULT_LEN);
+	let min: number = $state(DataArray.DEFAULT_MIN);
+	let max: number = $state(DataArray.DEFAULT_MAX);
 	let singleInsert: number = $state(0);
 	let arrayInsert: string = $state('0,1,2,3,4');
-	let searchTarget: number = $state(0);
 
 	function generateData(e: SubmitEvent) {
 		e.preventDefault();
@@ -35,20 +31,6 @@
 		let inputArr = arrayInsert.split(',').map(Number).filter(Boolean);
 		arrayInsert = inputArr.toString();
 		dataContext.set(inputArr);
-	}
-
-	function resetState() {
-		dataContext.reset();
-	}
-
-	function onsubmit(e: SubmitEvent) {
-		e.preventDefault();
-		dataContext.execute(
-			executeType,
-			plotContext.canAnimate(dataContext.getSize()),
-			plotContext.animationSpeed,
-			{ type: page.params.type, target: searchTarget }
-		);
 	}
 </script>
 
@@ -76,7 +58,7 @@
 	<button type="submit">Generate</button>
 </form>
 
-<form style="align-items: center;" onsubmit={insertSingleData}>
+<form class="center" onsubmit={insertSingleData}>
 	<p>Insert value:</p>
 	<NumInput
 		name={'singleInsert'}
@@ -87,30 +69,23 @@
 	<button type="submit">Insert</button>
 </form>
 
-<form style="align-items: center;" onsubmit={insertArrayData}>
+<form class="center" onsubmit={insertArrayData}>
 	<p>Insert array:</p>
 	<input name={'arrayInsert'} bind:value={arrayInsert} />
 	<button type="submit">Insert</button>
 </form>
 
-<form class="buttons-container" {onsubmit}>
-	<button type="submit">{executeType}</button>
-	<div>
-		{#if executeType == algoType.SEARCH}
-			<NumInput
-				name={'search'}
-				bind:value={searchTarget}
-				min={-DataArray.MAX_LENGTH}
-				max={DataArray.MAX_LENGTH}
-			/>
-		{/if}
+{#if executeType == algoType.SEARCH}
+	<div class="center container" transition:slide={{ duration: 200 }}>
+		<p>Search target:</p>
+		<NumInput
+			name={'search'}
+			bind:value={dataContext.searchTarget}
+			min={-DataArray.MAX_LENGTH}
+			max={DataArray.MAX_LENGTH}
+		/>
 	</div>
-	{#if !dataContext.inProcess}
-		<button type="button" onclick={resetState} transition:fly={{ x: -100, duration: 200 }}>
-			RESET
-		</button>
-	{/if}
-</form>
+{/if}
 
 <style>
 	button {
@@ -123,12 +98,8 @@
 		border: 3px solid var(--highlight-dark);
 		transition: all 0.2s ease-in-out;
 	}
-	.buttons-container {
-		display: grid;
-		grid-template-columns: 1fr 2fr 1fr;
-		gap: 1rem;
-	}
-	form {
+	form,
+	.container {
 		display: flex;
 		flex-direction: row;
 		gap: 1rem;
@@ -142,5 +113,8 @@
 	}
 	form button {
 		align-self: center;
+	}
+	.center {
+		align-items: center;
 	}
 </style>

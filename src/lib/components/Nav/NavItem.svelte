@@ -20,7 +20,8 @@
 
 	let { params } = page;
 
-	function expand() {
+	function expand(e: MouseEvent) {
+		e.preventDefault();
 		if (active == index) {
 			active = -1;
 		} else {
@@ -35,7 +36,7 @@
 					urlString = `/array/method/${parent}/type/${data.link}`;
 					break;
 				case 'graph':
-					urlString = `/graph/type/${data.link}`;
+					urlString = `/graph/method/${parent}/type/${data.link}`;
 					break;
 				default:
 					break;

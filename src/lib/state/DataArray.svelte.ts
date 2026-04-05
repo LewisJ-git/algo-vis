@@ -20,17 +20,21 @@ const uniqueRNG = (min: number, max: number, length: number): Array<number> => {
 };
 export class DataArray {
 	static MAX_LENGTH: number = 1000;
-	static EXAMPLE_MIN: number = 0;
-	static EXAMPLE_MAX: number = 20;
-	static EXAMPLE_LEN: number = 10;
+	static DEFAULT_MIN: number = 0;
+	static DEFAULT_MAX: number = 20;
+	static DEFAULT_LEN: number = 10;
 	data: Array<number> = $state([]);
 	dataPrev: Array<number> = $state([]);
 	activeIndices: Array<number> = $state([]);
-	running: boolean = $state(false);
+	searchTarget: number = $state(0);
+	status: 'PENDING' | 'RUNNING' | 'PAUSED' | 'DONE' = $state('PENDING');
 	iterator: ArrayAlgorithm | undefined = $state();
-	inProcess: boolean = $state(false);
 
-	constructor(min = 0, max = 20, length = 10) {
+	constructor(
+		min = DataArray.DEFAULT_MIN,
+		max = DataArray.DEFAULT_MAX,
+		length = DataArray.DEFAULT_LEN
+	) {
 		this.generate(min, max, length);
 		setContext(KEY, this);
 	}
@@ -68,22 +72,22 @@ export class DataArray {
 	reset(): void {
 		this.data = [...this.dataPrev];
 		this.activeIndices = [];
+		this.status = 'PENDING';
 	}
 
 	start(): void {
-		this.running = true;
-		this.inProcess = true;
+		this.status = 'RUNNING';
 	}
 
 	stop(): void {
-		this.running = false;
-		this.inProcess = false;
+		this.status = 'PAUSED';
 	}
 
 	toggle(): void {
-		this.running = !this.running;
-		if (!this.running) {
-			this.inProcess = false;
+		if (this.status == 'RUNNING') {
+			this.stop();
+		} else {
+			this.start();
 		}
 	}
 
@@ -91,18 +95,13 @@ export class DataArray {
 		this.iterator = algorithmMap[type as AlgorithmName](this.data);
 	}
 
-	setSearchIterator(type: string | undefined, target: number): void {
+	setSearchIterator(type: string | undefined): void {
 		if (type) {
-			this.iterator = algorithmMap[type as AlgorithmName](this.data, target);
+			this.iterator = algorithmMap[type as AlgorithmName](this.data, this.searchTarget);
 		}
 	}
 
-	execute(
-		type: algoType,
-		animate: boolean,
-		speed: number,
-		search?: { type: string | undefined; target: number }
-	) {
+	execute(type: algoType, animate: boolean, speed: number, search?: string | undefined) {
 		switch (type) {
 			case algoType.SORT:
 				this.start();
@@ -110,7 +109,7 @@ export class DataArray {
 				break;
 			case algoType.SEARCH:
 				if (search) {
-					this.setSearchIterator(search.type, search.target);
+					this.setSearchIterator(search);
 					this.start();
 					this.startAlgo(animate, speed);
 				}
@@ -124,7 +123,7 @@ export class DataArray {
 		if (this.iterator) {
 			let result = this.iterator.next();
 			while (!result.done) {
-				if (!this.running) {
+				if (this.status !== 'RUNNING') {
 					return;
 				}
 				if (animate) {
@@ -133,7 +132,7 @@ export class DataArray {
 				}
 				result = this.iterator.next();
 			}
-			this.stop();
+			this.status = 'DONE';
 			if (result.value !== undefined) {
 				this.activeIndices = [result.value];
 			} else {

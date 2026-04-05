@@ -4,13 +4,16 @@
 	import Nav from '$lib/components/Nav/Nav.svelte';
 	import { DataArray } from '$lib/state/DataArray.svelte';
 	import { LayoutType } from '$lib/state/LayoutType.svelte';
-	import ArrayController from '$lib/components/ArrayController.svelte';
+	import ArrayController from '$lib/components/Array/ArrayController.svelte';
 	import { dataType } from '$lib/types/enums';
 	import { PlotParams } from '$lib/state/PlotParams.svelte';
+	import { DataGraph } from '$lib/state/DataGraph.svelte';
+	import GraphController from '$lib/components/Graph/GraphController.svelte';
 
 	let { children } = $props();
 
 	new DataArray();
+	new DataGraph();
 	new LayoutType();
 	new PlotParams();
 
@@ -29,6 +32,9 @@
 	<div class="border-box controller">
 		{#if layoutContext.getLayout() == dataType.ARRAY}
 			<ArrayController />
+		{/if}
+		{#if layoutContext.getLayout() == dataType.GRAPH}
+			<GraphController />
 		{/if}
 	</div>
 </div>
@@ -51,7 +57,6 @@
 		flex: 0 1 550px;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
 		gap: 1.5rem;
 	}
 	.display {

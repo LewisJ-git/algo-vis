@@ -1,21 +1,24 @@
 <script lang="ts">
 	import { DataArray } from '$lib/state/DataArray.svelte';
 	import { PlotParams } from '$lib/state/PlotParams.svelte';
-	import type { Dim, Scale } from '$lib/types/interfaces';
+	import type { Directions, Scale } from '$lib/types/interfaces';
 	import { Layer, type Render } from 'svelte-canvas';
 
 	const {
 		scale,
 		window,
 		padding
-	}: { scale: (s: Dim) => Scale; window: (w: number, h: number) => Dim; padding: number } =
-		$props();
+	}: {
+		scale: (s: Directions) => Scale;
+		window: (w: number, h: number) => Directions;
+		padding: number;
+	} = $props();
 
 	let dataArray = DataArray.get();
 	let params = PlotParams.get();
 
 	const render: Render = ({ context, width, height }) => {
-		const innerWindow: Dim = window(width, height);
+		const innerWindow: Directions = window(width, height);
 		const s: Scale = scale(innerWindow);
 
 		context.beginPath();

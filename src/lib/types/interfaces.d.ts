@@ -24,11 +24,28 @@ export interface Input {
 	factor?: number;
 }
 
-export interface Dim {
+export interface Directions {
 	top: number;
 	left: number;
 	bottom: number;
 	right: number;
+}
+
+export interface Dimension {
+	width: number;
+	height: number;
+}
+
+export interface Coordinate {
+	x: number;
+	y: number;
+}
+
+export interface Neighbors {
+	left: Coordinate;
+	top: Coordinate;
+	right: Coordinate;
+	bottom: Coordinate;
 }
 
 export interface Scale {
@@ -36,4 +53,11 @@ export interface Scale {
 	y: ScaeLinear<number>;
 }
 
-type AlgorithmArgs = { arr: Array<number>; animate: boolean; speed: number };
+export interface GraphNode {
+	x: number;
+	y: number;
+	state: NodeState;
+	weight: NumRange<1, 9>;
+}
+
+export type Graph = Array<Array<GraphNode>>;
