@@ -137,6 +137,8 @@ dist
 
 # SvelteKit output directories
 .svelte-kit
+.DS_Store
+build
 
 # VSCode extensions
 .vscode

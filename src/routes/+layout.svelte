@@ -12,6 +12,8 @@
 
 	export const prerender = true;
 
+	export const trailingSlash = 'always';
+
 	let { children } = $props();
 
 	new DataArray();
