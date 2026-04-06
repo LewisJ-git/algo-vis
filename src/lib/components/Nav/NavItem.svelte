@@ -4,6 +4,7 @@
 	import type { NavChildren } from '$lib/types/interfaces';
 	import { resolve } from '$app/paths';
 	import { slide } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 
 	let {
 		data = {
@@ -32,10 +33,10 @@
 			switch (parent) {
 				case 'search':
 				case 'sort':
-					resolve('/array/method/[method]/type/[type]', { method: parent, type: data.link });
+					goto(resolve('/array/method/[method]/type/[type]', { method: parent, type: data.link }));
 					break;
 				case 'graph':
-					resolve('/graph/method/[method]/type/[type]', { method: parent, type: data.link });
+					goto(resolve('/graph/method/[method]/type/[type]', { method: parent, type: data.link }));
 					break;
 				default:
 					break;
