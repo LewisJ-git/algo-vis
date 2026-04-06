@@ -22,11 +22,17 @@
 	new PlotParams();
 
 	let layoutContext = LayoutType.get();
+
+	let innerWidth = $state(0);
+
+	let isMobile = $derived(innerWidth < 768);
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
+
+<svelte:window bind:innerWidth />
 
 <div class="layout">
 	<div class="header appear-transition">

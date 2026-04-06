@@ -36,6 +36,7 @@
 		flex-direction: row;
 		gap: 1rem;
 		align-items: center;
+		flex-wrap: wrap;
 	}
 	.controllers {
 		display: flex;

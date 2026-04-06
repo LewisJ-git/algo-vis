@@ -7,10 +7,13 @@
 	import Bar from './Bar.svelte';
 
 	let dataArray = DataArray.get();
+	let innerWidth = $state(0);
 
-	let width: number = 600,
-		height: number = 450,
-		margin: Directions = { top: 100, left: 5, right: 5, bottom: 15 };
+	let isMobile = $derived(innerWidth < 800);
+
+	let width: number = $state(600),
+		height: number = $state(450),
+		margin: Directions = $state({ top: 50, left: 5, right: 5, bottom: 15 });
 
 	const axisPadding = 20;
 	const textPadding = 4;
@@ -31,8 +34,21 @@
 			.domain([-(dataArray.getMax() * 0.02), dataArray.getMax()])
 			.range([s.bottom, s.top])
 	});
+
+	$effect(() => {
+		if (isMobile) {
+			width = 300;
+			height = 225;
+			margin = { top: 10, left: 2, right: 2, bottom: 5 };
+		} else {
+			width = 600;
+			height = 450;
+			margin = { top: 50, left: 5, right: 5, bottom: 15 };
+		}
+	});
 </script>
 
+<svelte:window bind:innerWidth />
 <div class="border-box container appear-transition-delay-1">
 	<Canvas {width} {height}>
 		<Axis {scale} window={innerWindow} padding={axisPadding} />

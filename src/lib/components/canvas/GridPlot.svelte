@@ -6,16 +6,27 @@
 
 	let graphContext = DataGraph.get();
 
+	let innerWidth = $state(0);
 	let activeNode: Coordinate = $state({ x: -1, y: -1 });
 	let dragMode: boolean = $state(false);
 	let cellSizeState: number = $state(0);
+	let isMobile = $derived(innerWidth < 800);
 
-	let width: number = 600,
-		height: number = 450;
+	let width: number = $state(600),
+		height: number = $state(450);
 
-	//$inspect(activeNode);
+	$effect(() => {
+		if (isMobile) {
+			width = 300;
+			height = 225;
+		} else {
+			width = 600;
+			height = 450;
+		}
+	});
 </script>
 
+<svelte:window bind:innerWidth />
 <div class="border-box container appear-transition-delay-1">
 	<Canvas {width} {height} layerEvents style="touch-action: none">
 		{#each graphContext.graph as dx}

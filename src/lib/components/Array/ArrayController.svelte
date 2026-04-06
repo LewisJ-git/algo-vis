@@ -104,6 +104,7 @@
 		flex-direction: row;
 		gap: 1rem;
 		width: 100%;
+		flex-wrap: wrap;
 	}
 	.item {
 		display: flex;

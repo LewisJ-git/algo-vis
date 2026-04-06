@@ -84,6 +84,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		flex-wrap: wrap;
 	}
 	.active {
 		border: 3px solid var(--highlight);
@@ -99,5 +100,6 @@
 		flex-direction: row;
 		gap: 1rem;
 		align-items: center;
+		flex-wrap: wrap;
 	}
 </style>
