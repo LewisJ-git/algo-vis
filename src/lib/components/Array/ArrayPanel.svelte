@@ -39,7 +39,7 @@
 	};
 </script>
 
-<div class="border-box container">
+<div class="border-box container appear-transition-delay-2">
 	<div>
 		<p>{layoutContext.method.charAt(0) + layoutContext.method.slice(1).toLowerCase()}ing</p>
 		<p>Type: {layoutContext.type}</p>

@@ -13,7 +13,7 @@
 	});
 </script>
 
-<div class="border-box container">
+<div class="border-box container appear-transition-delay-3">
 	<div class="anim-container">
 		<BoolInput name="enableAnimation" bind:value={params.enableAnimation}>Animations</BoolInput>
 		<label>

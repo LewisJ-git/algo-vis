@@ -16,7 +16,7 @@
 	//$inspect(activeNode);
 </script>
 
-<div class="border-box container">
+<div class="border-box container appear-transition-delay-1">
 	<Canvas {width} {height} layerEvents style="touch-action: none">
 		{#each graphContext.graph as dx}
 			{#each dx as node}

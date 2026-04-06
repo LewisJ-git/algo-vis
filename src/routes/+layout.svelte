@@ -29,18 +29,17 @@
 </svelte:head>
 
 <div class="layout">
-	<div class="header">
+	<div class="header appear-transition">
 		<h1>&lt; Algorithm Visualizer &gt;</h1>
 		<Nav />
 	</div>
-	<div class="border-box controller">
-		{#if layoutContext.getLayout() == dataType.ARRAY}
-			<ArrayController />
-		{/if}
-		{#if layoutContext.getLayout() == dataType.GRAPH}
-			<GraphController />
-		{/if}
-	</div>
+
+	{#if layoutContext.getLayout() == dataType.ARRAY}
+		<div class="border-box controller appear-transition"><ArrayController /></div>
+	{/if}
+	{#if layoutContext.getLayout() == dataType.GRAPH}
+		<div class="border-box controller appear-transition"><GraphController /></div>
+	{/if}
 </div>
 
 <div class="display">{@render children()}</div>
