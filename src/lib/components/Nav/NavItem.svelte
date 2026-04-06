@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import Folder from '$lib/assets/icons/Folder.svelte';
 	import type { NavChildren } from '$lib/types/interfaces';
+	import { resolve } from 'path';
 	import { slide } from 'svelte/transition';
 
 	let {
@@ -41,7 +41,7 @@
 				default:
 					break;
 			}
-			goto(urlString);
+			resolve(urlString);
 		}
 	}
 </script>
