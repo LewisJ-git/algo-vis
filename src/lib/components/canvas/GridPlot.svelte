@@ -27,7 +27,7 @@
 </script>
 
 <svelte:window bind:innerWidth />
-<div class="border-box container appear-transition-delay-1">
+<div class={`${isMobile ? 'box' : 'border-box'} container appear-transition-delay-1`}>
 	<Canvas {width} {height} layerEvents style="touch-action: none">
 		{#each graphContext.graph as dx}
 			{#each dx as node}

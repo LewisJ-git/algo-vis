@@ -49,7 +49,7 @@
 </script>
 
 <svelte:window bind:innerWidth />
-<div class="border-box container appear-transition-delay-1">
+<div class={`${isMobile ? 'box' : 'border-box'} container appear-transition-delay-1`}>
 	<Canvas {width} {height}>
 		<Axis {scale} window={innerWindow} padding={axisPadding} />
 		<Bar {scale} window={innerWindow} padding={textPadding} />

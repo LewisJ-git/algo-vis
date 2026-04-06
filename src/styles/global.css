@@ -14,9 +14,13 @@
 	--highlight-dark: #3b0505;
 }
 
-@media (max-width: 800px) {
-	body {
-		font-size: small;
+html {
+	font-size: 100%;
+}
+
+@media screen and (max-width: 800px) {
+	html {
+		font-size: 10px;
 	}
 }
 
@@ -106,6 +110,12 @@ input {
 	width: 100%;
 	padding: 1rem 2rem;
 	border: 3px solid var(--foreground-dark);
+}
+
+.box {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0.5rem 1rem;
 }
 
 .appear-transition {
