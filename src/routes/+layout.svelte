@@ -10,6 +10,8 @@
 	import { DataGraph } from '$lib/state/DataGraph.svelte';
 	import GraphController from '$lib/components/Graph/GraphController.svelte';
 
+	export const prerender = true;
+
 	let { children } = $props();
 
 	new DataArray();
