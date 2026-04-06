@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import Folder from '$lib/assets/icons/Folder.svelte';
 	import type { NavChildren } from '$lib/types/interfaces';
-	import { resolve } from 'path';
+	import { resolve } from '$app/paths';
 	import { slide } from 'svelte/transition';
 
 	let {
@@ -29,19 +29,17 @@
 		}
 
 		if (data.types.length == 0 && parent.length > 0) {
-			let urlString = '';
 			switch (parent) {
 				case 'search':
 				case 'sort':
-					urlString = `/array/method/${parent}/type/${data.link}`;
+					resolve('/array/method/[method]/type/[type]', { method: parent, type: data.link });
 					break;
 				case 'graph':
-					urlString = `/graph/method/${parent}/type/${data.link}`;
+					resolve('/graph/method/[method]/type/[type]', { method: parent, type: data.link });
 					break;
 				default:
 					break;
 			}
-			resolve(urlString);
 		}
 	}
 </script>
